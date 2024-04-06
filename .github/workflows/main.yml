@@ -29,7 +29,18 @@ jobs:
     needs: [CI]
     runs-on: ubuntu-latest
     steps:
-      - name: Conectar com o Kubernetes
-        run: echo "Configuração do kubeconfig"
+      - name: Configuração ambiente AWS
+        uses: aws-actions/configure-aws-credentials@4
+        with:
+          aws-region: "us-east-1"
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_ACCESS_SECRET }}
+      - name: Configuração kubeconfig
+        run: echo "aws eks update kubeconfig --name devops4devs-eks"
       - name: Executar o deploy
-        run: echo "kubectl apply"
+        uses: Azure/k8s-deploy@v4.9
+        with:
+          manifests: |
+            ./k8s/deploy.yaml
+          images: |
+            brunods85/devops4devs-news:${{github.run_number}}
