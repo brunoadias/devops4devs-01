@@ -2,7 +2,7 @@ name: CI-CD
 
 on:
   push:
-    branches: ["main]
+    branches: ["main"]
   workflow_dispatch:
 
 jobs:
@@ -18,5 +18,5 @@ jobs:
     steps:
       - name: Conectar com o Kubernetes
         run: echo "Configuração do kubeconfig
-      - name:
-        run: "kubectl apply"
+      - name: Executar o deploy
+        run: echo "kubectl apply"
